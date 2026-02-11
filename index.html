@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOVE YOUU 💖</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+body{overflow:hidden;color:white}
+
+/* Nền gradient động */
+@keyframes bgMove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+.page{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+background:linear-gradient(-45deg,#ff4e50,#fc913a,#f9d423,#e55d87,#5fc3e4);
+background-size:400% 400%;
+animation:bgMove 12s ease infinite;
+text-align:center;
+padding:20px;
+}
+
+/* Glass */
+.glass{
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(15px);
+padding:40px;
+border-radius:25px;
+box-shadow:0 0 50px rgba(0,0,0,0.3);
+}
+
+/* LOVE YOUU phát sáng */
+@keyframes glow{
+0%{text-shadow:0 0 10px #fff,0 0 20px pink}
+50%{text-shadow:0 0 30px #ff0080,0 0 60px #ff66cc}
+100%{text-shadow:0 0 10px #fff,0 0 20px pink}
+}
+.love{
+font-size:60px;
+animation:glow 2s infinite;
+}
+
+/* Trái tim */
+.heart{
+font-size:90px;
+animation:beat 1s infinite;
+cursor:pointer;
+}
+@keyframes beat{
+0%{transform:scale(1)}
+50%{transform:scale(1.3)}
+100%{transform:scale(1)}
+}
+
+/* Lời chúc typing */
+.typing{
+margin-top:20px;
+font-size:20px;
+min-height:40px;
+}
+
+/* Trái tim bay */
+.floating{
+position:fixed;
+bottom:-20px;
+animation:float 6s linear infinite;
+}
+@keyframes float{
+0%{transform:translateY(0)}
+100%{transform:translateY(-110vh)}
+}
+
+/* Pháo hoa */
+.firework{
+position:fixed;
+width:6px;
+height:6px;
+border-radius:50%;
+animation:explode 1s ease-out forwards;
+}
+@keyframes explode{
+0%{transform:scale(1);opacity:1}
+100%{transform:scale(6);opacity:0}
+}
+
+/* Nút */
+button{
+margin-top:20px;
+padding:12px 25px;
+border:none;
+border-radius:30px;
+background:linear-gradient(45deg,#ff416c,#ff4b2b);
+color:white;
+cursor:pointer;
+font-size:16px;
+transition:.3s;
+}
+button:hover{transform:scale(1.1)}
+
+</style>
+</head>
+<body>
+
+<div class="page">
+<div class="glass">
+
+<h1 class="love">💖 LOVE YOUU 💖</h1>
+
+<div class="heart" onclick="boom()">❤️</div>
+
+<div class="typing" id="text"></div>
+
+<button onclick="playMusic()">Bật Nhạc 🎵</button>
+
+</div>
+</div>
+
+<audio id="music" loop>
+<source src="Download.mp4" type="audio/mp4">
+</audio>
+
+<script>
+
+/* Lời chúc typing */
+const message="CHÚC NHI 14-2 LUN VUI VẺ, MẠNH KHỎE, NHỚ HOG ĐC BỎ BỮA VỚI THỨC KHUYA NỮA NHAA!!^^";
+let i=0;
+function typeText(){
+if(i<message.length){
+document.getElementById("text").innerHTML+=message.charAt(i);
+i++;
+setTimeout(typeText,50);
+}
+}
+typeText();
+
+/* Nhạc */
+function playMusic(){
+let music=document.getElementById("music");
+music.play().catch(()=>alert("Bấm lại lần nữa nha 😅"));
+}
+
+/* Trái tim bay */
+setInterval(()=>{
+let h=document.createElement("div");
+h.className="floating";
+h.innerHTML="💖";
+h.style.left=Math.random()*100+"vw";
+h.style.fontSize=(20+Math.random()*30)+"px";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
+},400);
+
+/* Pháo hoa khi bấm tim */
+function boom(){
+for(let i=0;i<30;i++){
+let f=document.createElement("div");
+f.className="firework";
+f.style.background="hsl("+Math.random()*360+",100%,50%)";
+f.style.top=Math.random()*80+"vh";
+f.style.left=Math.random()*100+"vw";
+document.body.appendChild(f);
+setTimeout(()=>f.remove(),1000);
+}
+}
+
+</script>
+
+</body>
+</html>
