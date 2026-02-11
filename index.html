@@ -48,7 +48,7 @@ font-size:60px;
 animation:glow 2s infinite;
 }
 
-/* Trái tim */
+/* Heart */
 .heart{
 font-size:90px;
 animation:beat 1s infinite;
@@ -60,14 +60,14 @@ cursor:pointer;
 100%{transform:scale(1)}
 }
 
-/* Lời chúc typing */
+/* Typing */
 .typing{
 margin-top:20px;
 font-size:20px;
 min-height:40px;
 }
 
-/* Trái tim bay */
+/* Floating hearts */
 .floating{
 position:fixed;
 bottom:-20px;
@@ -78,7 +78,7 @@ animation:float 6s linear infinite;
 100%{transform:translateY(-110vh)}
 }
 
-/* Pháo hoa */
+/* Firework */
 .firework{
 position:fixed;
 width:6px;
@@ -91,7 +91,7 @@ animation:explode 1s ease-out forwards;
 100%{transform:scale(6);opacity:0}
 }
 
-/* Nút */
+/* Button */
 button{
 margin-top:20px;
 padding:12px 25px;
@@ -105,11 +105,43 @@ transition:.3s;
 }
 button:hover{transform:scale(1.1)}
 
+/* Flash */
+.flash{
+position:fixed;
+width:100%;
+height:100%;
+background:white;
+opacity:0;
+pointer-events:none;
+transition:0.3s;
+}
+
+input{
+padding:12px;
+border:none;
+border-radius:20px;
+text-align:center;
+font-size:16px;
+}
+
 </style>
 </head>
 <body>
 
-<div class="page">
+<div class="flash" id="flash"></div>
+
+<!-- Trang nhập mật mã -->
+<div class="page" id="login">
+<div class="glass">
+<h2>🔐 Nhập Mật Mã</h2>
+<input type="password" id="pin" placeholder="Nhập mật mã">
+<br>
+<button onclick="checkPin()">Vào 💖</button>
+</div>
+</div>
+
+<!-- Trang chính -->
+<div class="page" id="main" style="display:none;">
 <div class="glass">
 
 <h1 class="love">💖 LOVE YOUU 💖</h1>
@@ -124,12 +156,35 @@ button:hover{transform:scale(1.1)}
 </div>
 
 <audio id="music" loop>
-<source src="Download.mp4" type="audio/mp4">
+<source src="Download.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-/* Lời chúc typing */
+const correctPin="22032012";
+
+/* Kiểm tra mật mã */
+function checkPin(){
+let input=document.getElementById("pin").value;
+if(input===correctPin){
+
+let flash=document.getElementById("flash");
+flash.style.opacity="1";
+setTimeout(()=>flash.style.opacity="0",300);
+
+setTimeout(()=>{
+document.getElementById("login").style.display="none";
+document.getElementById("main").style.display="flex";
+typeText();
+startHearts();
+},400);
+
+}else{
+alert("Sai mật mã rồi 😢");
+}
+}
+
+/* Typing lời chúc */
 const message="CHÚC NHI 14-2 LUN VUI VẺ, MẠNH KHỎE, NHỚ HOG ĐC BỎ BỮA VỚI THỨC KHUYA NỮA NHAA!!^^";
 let i=0;
 function typeText(){
@@ -139,15 +194,14 @@ i++;
 setTimeout(typeText,50);
 }
 }
-typeText();
 
 /* Nhạc */
 function playMusic(){
-let music=document.getElementById("music");
-music.play().catch(()=>alert("Bấm lại lần nữa nha 😅"));
+document.getElementById("music").play().catch(()=>alert("Bấm lại nha 😅"));
 }
 
-/* Trái tim bay */
+/* Tim bay */
+function startHearts(){
 setInterval(()=>{
 let h=document.createElement("div");
 h.className="floating";
@@ -157,8 +211,9 @@ h.style.fontSize=(20+Math.random()*30)+"px";
 document.body.appendChild(h);
 setTimeout(()=>h.remove(),6000);
 },400);
+}
 
-/* Pháo hoa khi bấm tim */
+/* Pháo hoa */
 function boom(){
 for(let i=0;i<30;i++){
 let f=document.createElement("div");
